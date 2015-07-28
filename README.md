@@ -1,6 +1,21 @@
 # jQuery.dragToSelect
 Use this plug-in to allow your users to select certain elements by dragging a "select box". Works very similar to how you can drag-n-select files and folders in most OS:es.
 
+Installation
+------------
+
+### npm
+
+```
+npm install jquery-drag-to-select --save
+```
+
+### bower
+
+```
+bower install jquery-drag-to-select --save
+```
+
 How To Use
 ----------
 
@@ -50,6 +65,3 @@ Forked from <http://andreaslagerkvist.com/jquery/drag-to-select/>
 ### Bugs fixed:
 
 * now working with jQuery in noConflict mode
-
-
-

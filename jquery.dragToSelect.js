@@ -44,7 +44,7 @@ Make sure a parent-element of the selectables has position: relative as well as 
 
 @exampleJS:
 $('#jquery-drag-to-select-example').dragToSelect({
-	selectables: 'li', 
+	selectables: 'li',
 	onHide: function () {
 		alert($('#jquery-drag-to-select-example li.selected').length + ' selected');
 	}
@@ -52,7 +52,6 @@ $('#jquery-drag-to-select-example').dragToSelect({
 ***/
 (function($){
 jQuery.fn.dragToSelect = function (conf) {
-
 	var realParent	= jQuery(this),
 	parent		= realParent;
 	do {
@@ -61,6 +60,25 @@ jQuery.fn.dragToSelect = function (conf) {
 		}
 		parent = parent.parent();
 	} while (parent[0].parentNode);
+
+	var c = typeof(conf) == 'object' ? conf : {};
+
+	// Config
+	var config = jQuery.extend({
+		className:		'jquery-drag-to-select',
+		classSelecting: 'jquery-drag-to-select-selecting',
+		activeClass:	'active',
+		disabledClass:	'disabled',
+		selectedClass:	'selected',
+		scrollTH:		10,
+		percentCovered:	25,
+		selectables:	false,
+		autoScroll:		false,
+		selectOnMove:	false,
+		onShow:			function () {return true;},
+		onHide:			function () {return true;},
+		onRefresh:		function () {return true;}
+	}, c);
 
 	// Does user want to disable dragToSelect
 	if (conf == 'disable') {
@@ -72,41 +90,17 @@ jQuery.fn.dragToSelect = function (conf) {
 		return this;
 	}
 
-
-
-	var c = typeof(conf) == 'object' ? conf : {};
-
-	// Config
-	var config = jQuery.extend({
-		className:		'jquery-drag-to-select',
-		classSelecting: 'jquery-drag-to-select-selecting',
-		activeClass:	'active', 
-		disabledClass:	'disabled', 
-		selectedClass:	'selected', 
-		scrollTH:		10, 
-		percentCovered:	25, 
-		selectables:	false, 
-		autoScroll:		false, 
-		selectOnMove:	false, 
-		onShow:			function () {return true;}, 
-		onHide:			function () {return true;}, 
-		onRefresh:		function () {return true;}
-	}, c);
-
-
-
-
 	var parentOffset	= parent.offset();
 	var parentDim	= {
-		left:	parentOffset.left, 
-		top:	parentOffset.top, 
-		width:	parent.outerWidth(), 
+		left:	parentOffset.left,
+		top:	parentOffset.top,
+		width:	parent.outerWidth(),
 		height:	parent.outerHeight()
 	};
 
 	// Current origin of select box
 	var selectBoxOrigin = {
-		left:	0, 
+		left:	0,
 		top:	0
 	};
 
@@ -126,9 +120,9 @@ jQuery.fn.dragToSelect = function (conf) {
 		selectBoxOrigin.top		= e.pageY - parentDim.top + parent[0].scrollTop;
 
 		var css = {
-			left:		selectBoxOrigin.left + 'px', 
-			top:		selectBoxOrigin.top + 'px', 
-			width:		'1px', 
+			left:		selectBoxOrigin.left + 'px',
+			top:		selectBoxOrigin.top + 'px',
+			width:		'1px',
 			height:		'1px'
 		};
 		selectBox.addClass(config.activeClass).css(css);
@@ -160,9 +154,9 @@ jQuery.fn.dragToSelect = function (conf) {
 		}
 
 		var css = {
-			left:	newLeft + 'px', 
-			top:	newTop + 'px', 
-			width:	newWidth + 'px', 
+			left:	newLeft + 'px',
+			top:	newTop + 'px',
+			width:	newWidth + 'px',
 			height:	newHeight + 'px'
 		};
 		selectBox.css(css);
@@ -213,9 +207,9 @@ jQuery.fn.dragToSelect = function (conf) {
 		var selectables		= realParent.find(config.selectables);
 		var selectBoxOffset	= selectBox.offset();
 		var selectBoxDim	= {
-			left:	selectBoxOffset.left, 
-			top:	selectBoxOffset.top, 
-			width:	selectBox.width(), 
+			left:	selectBoxOffset.left,
+			top:	selectBoxOffset.top,
+			width:	selectBox.width(),
 			height:	selectBox.height()
 		};
 
@@ -223,9 +217,9 @@ jQuery.fn.dragToSelect = function (conf) {
 			var el			= $(this);
 			var elOffset	= el.offset();
 			var elDim		= {
-				left:	elOffset.left, 
-				top:	elOffset.top, 
-				width:	el.width(), 
+				left:	elOffset.left,
+				top:	elOffset.top,
+				width:	el.width(),
 				height:	el.height()
 			};
 
@@ -242,9 +236,9 @@ jQuery.fn.dragToSelect = function (conf) {
 	var percentCovered = function (dim1, dim2) {
 		// The whole thing is covering the whole other thing
 		if (
-			(dim1.left <= dim2.left) && 
-			(dim1.top <= dim2.top) && 
-			((dim1.left + dim1.width) >= (dim2.left + dim2.width)) && 
+			(dim1.left <= dim2.left) &&
+			(dim1.top <= dim2.top) &&
+			((dim1.left + dim1.width) >= (dim2.left + dim2.width)) &&
 			((dim1.top + dim1.height) > (dim2.top + dim2.height))
 		) {
 			return 100;
@@ -263,12 +257,12 @@ jQuery.fn.dragToSelect = function (conf) {
 
 			if (b >= t && r >= l) {
 			/*	$('<div/>').appendTo(document.body).css({
-					background:	'red', 
+					background:	'red',
 					position:	'absolute',
-					left:		l + 'px', 
-					top:		t + 'px', 
-					width:		(r - l) + 'px', 
-					height:		(b - t) + 'px', 
+					left:		l + 'px',
+					top:		t + 'px',
+					width:		(r - l) + 'px',
+					height:		(b - t) + 'px',
 					zIndex:		100
 				}); */
 
@@ -287,7 +281,7 @@ jQuery.fn.dragToSelect = function (conf) {
 	selectBox
 		.mousemove(function (e) {
 			refreshSelectBox(e);
-			if (config.selectables && config.selectOnMove) {			
+			if (config.selectables && config.selectOnMove) {
 				selectElementsInRange();
 			}
 
@@ -298,7 +292,7 @@ jQuery.fn.dragToSelect = function (conf) {
 			e.preventDefault();
 		})
 		.mouseup(function(e) {
-			if (config.selectables) {			
+			if (config.selectables) {
 				selectElementsInRange();
 			}
 
@@ -315,14 +309,14 @@ jQuery.fn.dragToSelect = function (conf) {
 	var mousemove = function(e){
 		parentOffset	= parent.offset();
 		parentDim	= {
-			left:	parentOffset.left, 
-			top:	parentOffset.top, 
-			width:	parent.outerWidth(), 
+			left:	parentOffset.left,
+			top:	parentOffset.top,
+			width:	parent.outerWidth(),
 			height:	parent.outerHeight()
 		};
 
 		refreshSelectBox(e);
-		if (config.selectables && config.selectOnMove) {			
+		if (config.selectables && config.selectOnMove) {
 			selectElementsInRange();
 		}
 
@@ -333,7 +327,7 @@ jQuery.fn.dragToSelect = function (conf) {
 
 	};
 	var mouseup = function(e){
-		if (config.selectables) {			
+		if (config.selectables) {
 			selectElementsInRange();
 		}
 
@@ -342,7 +336,7 @@ jQuery.fn.dragToSelect = function (conf) {
 		$(document.body).off('mousemove',mousemove);
 		$(document.body).off('mouseup',mouseup);
 		parent.removeClass(config.classSelecting);
-		
+
 		e.preventDefault();
 
 	};
@@ -352,12 +346,12 @@ jQuery.fn.dragToSelect = function (conf) {
 		if(e.which!=1){
 			return;
 		}
-		
+
 		parentOffset	= parent.offset();
 		parentDim	= {
-			left:	parentOffset.left, 
-			top:	parentOffset.top, 
-			width:	parent.outerWidth(), 
+			left:	parentOffset.left,
+			top:	parentOffset.top,
+			width:	parent.outerWidth(),
 			height:	parent.outerHeight()
 		};
 
@@ -365,7 +359,7 @@ jQuery.fn.dragToSelect = function (conf) {
 		if ((e.pageX-parentDim.left+parent.scrollLeft()) > parent.innerWidth() || (e.pageY-parentDim.top+parent.scrollTop()) > parent.innerHeight()) {
 			return;
 		}
-		
+
 		parent.addClass(config.classSelecting);
 
 		if($('.'+config.className).length<=0){
@@ -374,7 +368,7 @@ jQuery.fn.dragToSelect = function (conf) {
 				.attr('class', config.className)
 				.css('position', 'absolute');
 		}
-		
+
 		$(document.body).on('mousemove',mousemove);
 		$(document.body).on('mouseup',mouseup);
 

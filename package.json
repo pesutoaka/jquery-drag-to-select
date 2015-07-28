@@ -1,0 +1,28 @@
+{
+  "name": "jquery-drag-to-select",
+  "version": "1.1.0",
+  "authors": [
+    "Andreas Lagerkvist",
+    "Antonio Fernandez Porrua"
+  ],
+  "description": "Use this plug-in to allow your users to select certain elements by dragging a \"select box\". Works very similar to how you can drag-n-select files and folders in most OS:es.",
+  "main": "jquery.dragToSelect.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kako0507/jquery-drag-to-select.git"
+  },
+  "keywords": [
+    "jquey",
+    "drag",
+    "select",
+    "selectable"
+  ],
+  "license": "CC BY 3.0",
+  "bugs": {
+    "url": "https://github.com/kako0507/jquery-drag-to-select/issues"
+  },
+  "homepage": "https://github.com/kako0507/jquery-drag-to-select#readme"
+}

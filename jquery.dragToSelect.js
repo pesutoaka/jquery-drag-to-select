@@ -343,7 +343,8 @@ jQuery.fn.dragToSelect = function (conf) {
 
 	parent.mousedown(function (e) {
 		// Only with left button
-		if(e.which!=1){
+		var t = $(config.selectables, $(e.target));
+        if(e.which!=1 || !(e.target == parent[0] || t.length)){
 			return;
 		}
 
